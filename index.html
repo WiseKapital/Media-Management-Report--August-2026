@@ -58,7 +58,7 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- SECTION 1: CARDS AND PROGRESS BARS VIEW -->
+    <!-- SECTION 1: CARDS, BARS AND MAIN LINE CHART -->
     <!-- ========================================== -->
     <div id="section-v1" class="space-y-6">
       
@@ -77,8 +77,13 @@
             <span class="text-4xl font-black text-slate-900">2622</span>
             <span class="text-xs font-bold text-slate-500">MTD</span>
           </div>
-          <div class="mt-4 inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
-            <span class="text-slate-500">RR</span> <span class="font-extrabold text-slate-900">6775</span>
+          <div class="mt-4 flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
+              <span class="text-slate-500">KPI</span> <span class="font-extrabold text-slate-900">6000</span>
+            </span>
+            <span class="px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
+              <span class="text-slate-500">RR</span> <span class="font-extrabold text-slate-900">6775</span>
+            </span>
           </div>
         </div>
 
@@ -94,8 +99,13 @@
             <span class="text-4xl font-black text-slate-900">158</span>
             <span class="text-xs font-bold text-slate-500">MTD</span>
           </div>
-          <div class="mt-4 inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
-            <span class="text-slate-500">RR</span> <span class="font-extrabold text-slate-900">409</span>
+          <div class="mt-4 flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
+              <span class="text-slate-500">KPI</span> <span class="font-extrabold text-slate-900">1000</span>
+            </span>
+            <span class="px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
+              <span class="text-slate-500">RR</span> <span class="font-extrabold text-slate-900">409</span>
+            </span>
           </div>
         </div>
 
@@ -111,8 +121,13 @@
             <span class="text-4xl font-black text-slate-900">12</span>
             <span class="text-xs font-bold text-slate-500">MTD</span>
           </div>
-          <div class="mt-4 inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
-            <span class="text-slate-500">RR</span> <span class="font-extrabold text-slate-900">31</span>
+          <div class="mt-4 flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
+              <span class="text-slate-500">KPI</span> <span class="font-extrabold text-slate-900">300</span>
+            </span>
+            <span class="px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
+              <span class="text-slate-500">RR</span> <span class="font-extrabold text-slate-900">31</span>
+            </span>
           </div>
         </div>
 
@@ -241,12 +256,20 @@
 
       </div>
 
+      <!-- MAIN LINE CHART (STRAIGHTER LINES + EXACT TITLE) -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <h3 class="text-lg font-extrabold text-slate-900 tracking-tight mb-4">LEADS vs SIGNUPS vs USERS vs KPIs — Aug 1-12</h3>
+        <div class="relative w-full h-96">
+          <canvas id="mainLineChart"></canvas>
+        </div>
+      </div>
+
     </div>
 
     <!-- ========================================== -->
     <!-- SECTION 2: MAIN GENERAL TABLE -->
     <!-- ========================================== -->
-    <div id="section-v2" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden p-6 space-y-4">
+    <div id="section-v2" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden p-6 space-y-4 mt-6">
       
       <!-- CONTROLS AND FILTERS -->
       <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
@@ -294,7 +317,7 @@
             <!-- Row: ADM -->
             <tr class="hover:bg-slate-50">
               <td class="p-3 font-extrabold">ADM</td>
-              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">1200</td>
               <td class="p-3 text-center font-extrabold">1086</td>
               <td class="p-3 text-center text-green-custom font-extrabold">2806</td>
               <td class="p-3 text-center text-slate-400 italic">111</td>
@@ -310,7 +333,7 @@
             <!-- Row: RXD -->
             <tr class="hover:bg-slate-50">
               <td class="p-3 font-extrabold">RXD</td>
-              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">1200</td>
               <td class="p-3 text-center font-extrabold">594</td>
               <td class="p-3 text-center text-green-custom font-extrabold">1535</td>
               <td class="p-3 text-center text-slate-400">—</td>
@@ -326,7 +349,7 @@
             <!-- Row: LGL -->
             <tr class="hover:bg-slate-50">
               <td class="p-3 font-extrabold">LGL</td>
-              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">1200</td>
               <td class="p-3 text-center font-extrabold">555</td>
               <td class="p-3 text-center text-green-custom font-extrabold">1434</td>
               <td class="p-3 text-center text-slate-400 italic">111</td>
@@ -342,9 +365,9 @@
             <!-- Row: OPI -->
             <tr class="hover:bg-slate-50">
               <td class="p-3 font-extrabold">OPI</td>
-              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">1200</td>
               <td class="p-3 text-center font-extrabold">354</td>
-              <td class="p-3 text-center text-green-custom font-extrabold">915</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">915</td>
               <td class="p-3 text-center text-slate-400">—</td>
               <td class="p-3 text-center text-slate-400">—</td>
               <td class="p-3 text-center text-slate-400">—</td>
@@ -358,9 +381,9 @@
             <!-- Row: CHA -->
             <tr class="hover:bg-slate-50">
               <td class="p-3 font-extrabold">CHA</td>
-              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">1200</td>
               <td class="p-3 text-center font-extrabold">33</td>
-              <td class="p-3 text-center text-green-custom font-extrabold">85</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">85</td>
               <td class="p-3 text-center text-slate-400 italic">111</td>
               <td class="p-3 text-center font-extrabold">5</td>
               <td class="p-3 text-center text-red-custom font-extrabold">13</td>
@@ -486,7 +509,7 @@
             <!-- Grand total -->
             <tr class="bg-slate-50 font-black">
               <td class="p-3 font-extrabold">Grand total</td>
-              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">6000</td>
               <td class="p-3 text-center">2622</td>
               <td class="p-3 text-center text-green-custom">6775</td>
               <td class="p-3 text-center text-slate-400 italic">1000</td>
@@ -506,7 +529,7 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- SECTION 3: CAMPAIGN TABLES AND CHARTS -->
+    <!-- SECTION 3: CAMPAIGN TABLES -->
     <!-- ========================================== -->
     <div id="section-v3" class="space-y-6">
       
@@ -528,12 +551,12 @@
               </tr>
             </thead>
             <tbody class="font-semibold">
-              <tr><td class="py-1.5 px-2 font-bold">ADM</td><td class="text-center text-slate-400">—</td><td class="text-center font-black">1086</td><td class="text-center text-green-custom font-black">2806</td></tr>
-              <tr><td class="py-1.5 px-2 font-bold">RXD</td><td class="text-center text-slate-400">—</td><td class="text-center font-black">594</td><td class="text-center text-green-custom font-black">1535</td></tr>
-              <tr><td class="py-1.5 px-2 font-bold">LGL</td><td class="text-center text-slate-400">—</td><td class="text-center font-black">555</td><td class="text-center text-green-custom font-black">1434</td></tr>
-              <tr><td class="py-1.5 px-2 font-bold">OPI</td><td class="text-center text-slate-400">—</td><td class="text-center font-black">354</td><td class="text-center text-green-custom font-black">915</td></tr>
-              <tr><td class="py-1.5 px-2 font-bold">CHA</td><td class="text-center text-slate-400">—</td><td class="text-center font-black">33</td><td class="text-center text-green-custom font-black">85</td></tr>
-              <tr class="font-extrabold bg-slate-50"><td class="py-2 px-2">Grand total</td><td class="text-center text-slate-400">—</td><td class="text-center">2622</td><td class="text-center text-green-custom">6775</td></tr>
+              <tr><td class="py-1.5 px-2 font-bold">ADM</td><td class="text-center text-slate-400 italic">1200</td><td class="text-center font-black">1086</td><td class="text-center text-green-custom font-black">2806</td></tr>
+              <tr><td class="py-1.5 px-2 font-bold">RXD</td><td class="text-center text-slate-400 italic">1200</td><td class="text-center font-black">594</td><td class="text-center text-green-custom font-black">1535</td></tr>
+              <tr><td class="py-1.5 px-2 font-bold">LGL</td><td class="text-center text-slate-400 italic">1200</td><td class="text-center font-black">555</td><td class="text-center text-green-custom font-black">1434</td></tr>
+              <tr><td class="py-1.5 px-2 font-bold">OPI</td><td class="text-center text-slate-400 italic">1200</td><td class="text-center font-black">354</td><td class="text-center text-red-custom font-black">915</td></tr>
+              <tr><td class="py-1.5 px-2 font-bold">CHA</td><td class="text-center text-slate-400 italic">1200</td><td class="text-center font-black">33</td><td class="text-center text-red-custom font-black">85</td></tr>
+              <tr class="font-extrabold bg-slate-50"><td class="py-2 px-2">Grand total</td><td class="text-center text-slate-400 italic">6000</td><td class="text-center">2622</td><td class="text-center text-green-custom">6775</td></tr>
             </tbody>
           </table>
         </div>
@@ -587,7 +610,7 @@
           </table>
         </div>
 
-        <!-- TABLE 4: MTD CPA CAMPAIGNS — USERS (PRO 150 + OCL 150 = 300 KPI TOTAL) -->
+        <!-- TABLE 4: MTD CPA CAMPAIGNS — USERS -->
         <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
           <div class="bg-fuchsia-50 text-purple-900 text-xs font-bold p-2.5 rounded-lg mb-3 tracking-wide">
             MTD CPA CAMPAIGNS — USERS
@@ -622,79 +645,6 @@
               </tr>
             </tbody>
           </table>
-        </div>
-
-      </div>
-
-      <!-- 4 DONUT CHARTS GRID -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        
-        <!-- CHART 1 -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-between">
-          <h4 class="text-xs font-bold text-slate-800 uppercase mb-4">MTD CPL CAMPAIGNS — LEADS</h4>
-          <div class="relative w-40 h-40 flex items-center justify-center">
-            <canvas id="chartCpl"></canvas>
-            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span class="text-lg font-black text-slate-900">2,622</span>
-              <span class="text-[10px] font-bold text-slate-400">Leads</span>
-            </div>
-          </div>
-          <div class="mt-4 flex flex-wrap justify-center gap-2 text-[11px] font-bold text-slate-600">
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span> ADM (41%)</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> RXD (23%)</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span> LGL (21%)</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-300 inline-block"></span> OPI (14%)</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-200 inline-block"></span> CHA (1%)</span>
-          </div>
-        </div>
-
-        <!-- CHART 2 -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-between">
-          <h4 class="text-xs font-bold text-slate-800 uppercase mb-4">MTD CPR CAMPAIGNS — SIGNUPS</h4>
-          <div class="relative w-40 h-40 flex items-center justify-center">
-            <canvas id="chartCpr"></canvas>
-            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span class="text-lg font-black text-slate-900">158</span>
-              <span class="text-[10px] font-bold text-slate-400">Signups</span>
-            </div>
-          </div>
-          <div class="mt-4 flex flex-wrap justify-center gap-2 text-[11px] font-bold text-slate-600">
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-600 inline-block"></span> PRO (45%)</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span> LGL (37%)</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-400 inline-block"></span> LUM (8%)</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-200 inline-block"></span> Others (10%)</span>
-          </div>
-        </div>
-
-        <!-- CHART 3 (TARGET GAUGE) -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-between">
-          <h4 class="text-xs font-bold text-slate-800 uppercase mb-4">CPR</h4>
-          <div class="relative w-40 h-40 flex items-center justify-center">
-            <canvas id="chartCprTarget"></canvas>
-            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span class="text-lg font-black text-slate-900">200</span>
-              <span class="text-[10px] font-bold text-slate-400">KPI Target</span>
-            </div>
-          </div>
-          <div class="mt-4 text-[11px] font-bold text-slate-400">
-            No data yet
-          </div>
-        </div>
-
-        <!-- CHART 4 -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-between">
-          <h4 class="text-xs font-bold text-slate-800 uppercase mb-4">MTD CPA CAMPAIGNS — USERS</h4>
-          <div class="relative w-40 h-40 flex items-center justify-center">
-            <canvas id="chartCpa"></canvas>
-            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span class="text-lg font-black text-slate-900">12</span>
-              <span class="text-[10px] font-bold text-slate-400">Players</span>
-            </div>
-          </div>
-          <div class="mt-4 flex flex-wrap justify-center gap-2 text-[11px] font-bold text-slate-600">
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-purple-600 inline-block"></span> PRO (91.7%)</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-purple-400 inline-block"></span> OCL (8.3%)</span>
-          </div>
         </div>
 
       </div>
@@ -746,57 +696,135 @@
       }
     }
 
+    // MAIN LINE CHART INITIALIZATION (EXACT STRAIGHT-LINE MATPLOTLIB MATCH)
     document.addEventListener('DOMContentLoaded', () => {
-      new Chart(document.getElementById('chartCpl'), {
-        type: 'doughnut',
+      const ctx = document.getElementById('mainLineChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
         data: {
-          labels: ['ADM', 'RXD', 'LGL', 'OPI', 'CHA'],
-          datasets: [{
-            data: [41, 23, 21, 14, 1],
-            backgroundColor: ['#059669', '#10b981', '#34d399', '#6ee7b7', '#a7f3d0'],
-            borderWidth: 0
-          }]
+          labels: ['Aug 1', 'Aug 2', 'Aug 3', 'Aug 4', 'Aug 5', 'Aug 6', 'Aug 7', 'Aug 8', 'Aug 9', 'Aug 10', 'Aug 11', 'Aug 12'],
+          datasets: [
+            {
+              label: 'LEADS Real (Avg: 218/day)',
+              data: [200, 240, 180, 230, 250, 190, 210, 270, 190, 220, 210, 232],
+              borderColor: '#00d285',
+              backgroundColor: 'rgba(0, 210, 133, 0.08)',
+              fill: 'start',
+              borderWidth: 2.5,
+              pointBackgroundColor: '#00d285',
+              pointRadius: 4,
+              tension: 0 /* STRAIGHT LINES */
+            },
+            {
+              label: 'SIGNUPS Real (Avg: 13/day)',
+              data: [10, 18, 12, 16, 9, 14, 11, 15, 12, 10, 16, 15],
+              borderColor: '#2563eb',
+              backgroundColor: '#2563eb',
+              fill: false,
+              borderWidth: 2.5,
+              pointBackgroundColor: '#2563eb',
+              pointRadius: 4,
+              tension: 0 /* STRAIGHT LINES */
+            },
+            {
+              label: 'USERS Real (Avg: 1/day)',
+              data: [1, 0, 2, 1, 0, 1, 2, 0, 1, 2, 2, 0],
+              borderColor: '#a855f7',
+              backgroundColor: '#a855f7',
+              fill: false,
+              borderWidth: 2.5,
+              pointBackgroundColor: '#a855f7',
+              pointRadius: 4,
+              tension: 0 /* STRAIGHT LINES */
+            },
+            {
+              label: 'KPI LEADS (193.5/day)',
+              data: Array(12).fill(193.5),
+              borderColor: '#00d285',
+              borderWidth: 2,
+              borderDash: [6, 4],
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'KPI SIGNUPS (32.3/day)',
+              data: Array(12).fill(32.3),
+              borderColor: '#2563eb',
+              borderWidth: 2,
+              borderDash: [6, 4],
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'KPI USERS (9.7/day)',
+              data: Array(12).fill(9.7),
+              borderColor: '#a855f7',
+              borderWidth: 2,
+              borderDash: [6, 4],
+              pointRadius: 0,
+              fill: false
+            }
+          ]
         },
-        options: { cutout: '75%', plugins: { legend: { display: false } } }
-      });
-
-      new Chart(document.getElementById('chartCpr'), {
-        type: 'doughnut',
-        data: {
-          labels: ['PRO', 'LGL', 'LUM', 'Others'],
-          datasets: [{
-            data: [45, 37, 8, 10],
-            backgroundColor: ['#1d4ed8', '#2563eb', '#60a5fa', '#93c5fd'],
-            borderWidth: 0
-          }]
-        },
-        options: { cutout: '75%', plugins: { legend: { display: false } } }
-      });
-
-      new Chart(document.getElementById('chartCprTarget'), {
-        type: 'doughnut',
-        data: {
-          labels: ['Target'],
-          datasets: [{
-            data: [100],
-            backgroundColor: ['#fef08a'],
-            borderWidth: 0
-          }]
-        },
-        options: { cutout: '75%', plugins: { legend: { display: false } } }
-      });
-
-      new Chart(document.getElementById('chartCpa'), {
-        type: 'doughnut',
-        data: {
-          labels: ['PRO', 'OCL'],
-          datasets: [{
-            data: [91.7, 8.3],
-            backgroundColor: ['#a855f7', '#c084fc'],
-            borderWidth: 0
-          }]
-        },
-        options: { cutout: '75%', plugins: { legend: { display: false } } }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false,
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                usePointStyle: true,
+                boxWidth: 8,
+                font: {
+                  family: "'Inter', sans-serif",
+                  size: 11,
+                  weight: 'bold'
+                },
+                color: '#334155'
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.9)',
+              titleFont: { family: "'Inter', sans-serif", size: 13 },
+              bodyFont: { family: "'Inter', sans-serif", size: 12 },
+              padding: 10,
+              cornerRadius: 8,
+              displayColors: true
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 300,
+              grid: {
+                color: '#f1f5f9',
+                drawBorder: false,
+              },
+              ticks: {
+                stepSize: 50,
+                font: { family: "'Inter', sans-serif", size: 11 },
+                color: '#64748b'
+              },
+              title: {
+                display: true,
+                text: 'Daily Volume',
+                font: { family: "'Inter', sans-serif", size: 12, weight: 'bold' },
+                color: '#0f172a'
+              }
+            },
+            x: {
+              grid: { display: false, drawBorder: false },
+              ticks: {
+                font: { family: "'Inter', sans-serif", size: 11 },
+                color: '#64748b'
+              }
+            }
+          }
+        }
       });
     });
   </script>
