@@ -62,7 +62,7 @@
     <!-- ========================================== -->
     <div id="section-v1" class="space-y-6">
       
-      <!-- TOP METRIC CARDS -->
+      <!-- TOP METRIC CARDS (CONDITIONAL RR COLORS) -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         <!-- LEADS (CPL) MTD -->
@@ -82,7 +82,7 @@
               <span class="text-slate-500">KPI</span> <span class="font-extrabold text-slate-900">6000</span>
             </span>
             <span class="px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
-              <span class="text-slate-500">RR</span> <span class="font-extrabold text-slate-900">6775</span>
+              <span class="text-slate-500">RR</span> <span class="font-extrabold text-green-custom">6775</span> <!-- GREEN (6775 > 6000) -->
             </span>
           </div>
         </div>
@@ -104,7 +104,7 @@
               <span class="text-slate-500">KPI</span> <span class="font-extrabold text-slate-900">1000</span>
             </span>
             <span class="px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
-              <span class="text-slate-500">RR</span> <span class="font-extrabold text-slate-900">409</span>
+              <span class="text-slate-500">RR</span> <span class="font-extrabold text-red-custom">409</span> <!-- RED (409 <= 1000) -->
             </span>
           </div>
         </div>
@@ -126,7 +126,7 @@
               <span class="text-slate-500">KPI</span> <span class="font-extrabold text-slate-900">300</span>
             </span>
             <span class="px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
-              <span class="text-slate-500">RR</span> <span class="font-extrabold text-slate-900">31</span>
+              <span class="text-slate-500">RR</span> <span class="font-extrabold text-red-custom">31</span> <!-- RED (31 <= 300) -->
             </span>
           </div>
         </div>
@@ -256,9 +256,9 @@
 
       </div>
 
-      <!-- MAIN LINE CHART (STRAIGHTER LINES + EXACT TITLE) -->
+      <!-- MAIN LINE CHART -->
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-        <h3 class="text-lg font-extrabold text-slate-900 tracking-tight mb-4">LEADS vs SIGNUPS vs USERS vs KPIs — August</h3>
+        <h3 class="text-lg font-extrabold text-slate-900 tracking-tight mb-4">LEADS vs SIGNUPS vs USERS vs KPIs — Aug 1-12</h3>
         <div class="relative w-full h-96">
           <canvas id="mainLineChart"></canvas>
         </div>
@@ -267,7 +267,7 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- SECTION 2: MAIN GENERAL TABLE -->
+    <!-- SECTION 2: MAIN GENERAL TABLE (INTEGERS ONLY FOR REVENUE/BUDGET/PROFIT) -->
     <!-- ========================================== -->
     <div id="section-v2" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden p-6 space-y-4 mt-6">
       
@@ -343,8 +343,8 @@
               <td class="p-3 text-center text-slate-400">—</td>
               <td class="p-3 text-center text-slate-400">—</td>
               <td class="p-3 text-center font-extrabold">0</td>
-              <td class="p-3 text-center font-extrabold">118.8</td>
-              <td class="p-3 text-center text-red-custom font-extrabold">-118.8</td>
+              <td class="p-3 text-center font-extrabold">119</td> <!-- Rounded 118.8 -> 119 -->
+              <td class="p-3 text-center text-red-custom font-extrabold">-119</td>
             </tr>
             <!-- Row: LGL -->
             <tr class="hover:bg-slate-50">
@@ -375,8 +375,8 @@
               <td class="p-3 text-center text-slate-400">—</td>
               <td class="p-3 text-center text-slate-400">—</td>
               <td class="p-3 text-center font-extrabold">0</td>
-              <td class="p-3 text-center font-extrabold">106.2</td>
-              <td class="p-3 text-center text-red-custom font-extrabold">-106.2</td>
+              <td class="p-3 text-center font-extrabold">106</td> <!-- Rounded 106.2 -> 106 -->
+              <td class="p-3 text-center text-red-custom font-extrabold">-106</td>
             </tr>
             <!-- Row: CHA -->
             <tr class="hover:bg-slate-50">
@@ -406,9 +406,9 @@
               <td class="p-3 text-center text-slate-400 italic">150</td>
               <td class="p-3 text-center font-extrabold">11</td>
               <td class="p-3 text-center text-red-custom font-extrabold">28</td>
-              <td class="p-3 text-center font-extrabold">165.0</td>
+              <td class="p-3 text-center font-extrabold">165</td> <!-- Rounded 165.0 -> 165 -->
               <td class="p-3 text-center font-extrabold">750</td>
-              <td class="p-3 text-center text-red-custom font-extrabold">-585.0</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">-585</td>
             </tr>
             <!-- Row: LUM -->
             <tr class="hover:bg-slate-50">
@@ -454,9 +454,9 @@
               <td class="p-3 text-center text-slate-400 italic">150</td>
               <td class="p-3 text-center font-extrabold">1</td>
               <td class="p-3 text-center text-red-custom font-extrabold">3</td>
-              <td class="p-3 text-center font-extrabold">75.0</td>
+              <td class="p-3 text-center font-extrabold">75</td> <!-- Rounded 75.0 -> 75 -->
               <td class="p-3 text-center font-extrabold">0</td>
-              <td class="p-3 text-center text-green-custom font-extrabold">75.0</td>
+              <td class="p-3 text-center text-green-custom font-extrabold">75</td>
             </tr>
             <!-- Row: FXM -->
             <tr class="hover:bg-slate-50">
@@ -518,9 +518,9 @@
               <td class="p-3 text-center text-slate-400 font-bold">300</td>
               <td class="p-3 text-center">12</td>
               <td class="p-3 text-center text-red-custom">31</td>
-              <td class="p-3 text-center font-black">240.0</td>
-              <td class="p-3 text-center font-black">1231.0</td>
-              <td class="p-3 text-center text-red-custom font-black">-991.0</td>
+              <td class="p-3 text-center font-black">240</td>
+              <td class="p-3 text-center font-black">1231</td>
+              <td class="p-3 text-center text-red-custom font-black">-991</td>
             </tr>
           </tbody>
         </table>
@@ -696,7 +696,7 @@
       }
     }
 
-    // MAIN LINE CHART INITIALIZATION (EXACT STRAIGHT-LINE MATPLOTLIB MATCH)
+    // MAIN LINE CHART INITIALIZATION
     document.addEventListener('DOMContentLoaded', () => {
       const ctx = document.getElementById('mainLineChart').getContext('2d');
       new Chart(ctx, {
