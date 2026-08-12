@@ -1,1105 +1,804 @@
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MMR Media Management Report</title>
-    <style>
-        :root {
-            --bg-body: #f4f7fa;
-            --white: #ffffff;
-            --text-dark: #1e293b;
-            --text-gray: #64748b;
-            --border-light: #e2e8f0;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MMR Media Management Report</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Fonts (Inter) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-            --green-main: #00c98b;
-            --green-light: #d1fae5;
-            --green-text: #065f46;
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f4f8;
+      color: #1e293b;
+    }
+    .card-border-green { border-top: 4px solid #00d285; }
+    .card-border-blue { border-top: 4px solid #2563eb; }
+    .card-border-purple { border-top: 4px solid #a855f7; }
+    
+    .bg-mint-header { background-color: #e8f5e9; }
+    .text-green-custom { color: #00b074; }
+    .text-red-custom { color: #e11d48; }
+    .bg-green-custom { background-color: #00d285; }
+    .bg-blue-custom { background-color: #2563eb; }
+    .bg-purple-custom { background-color: #a855f7; }
 
-            --blue-main: #3b82f6;
-            --blue-light: #dbeafe;
-            --blue-text: #1e40af;
-
-            --purple-main: #a855f7;
-            --purple-light: #f3e8ff;
-            --purple-text: #6b21a8;
-
-            --badge-green: #22c55e;
-            --badge-red: #ef4444;
-            --badge-gray: #f1f5f9;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-dark);
-            padding: 24px;
-        }
-
-        .container {
-            max-width: 1500px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        /* HEADER */
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .header h1 {
-            font-size: 24px;
-            font-weight: 800;
-            color: #111827;
-        }
-
-        .header .date-badge {
-            background-color: #1f2937;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        /* GRID SYSTEM */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        /* CARDS */
-        .card {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-light);
-            position: relative;
-        }
-
-        .card-top-border-green {
-            border-top: 4px solid var(--green-main);
-        }
-
-        .card-top-border-blue {
-            border-top: 4px solid var(--blue-main);
-        }
-
-        .card-top-border-purple {
-            border-top: 4px solid var(--purple-main);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .card-title {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-gray);
-            letter-spacing: 0.5px;
-        }
-
-        .icon-box {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .icon-green {
-            background: var(--green-light);
-            color: var(--green-text);
-        }
-
-        .icon-blue {
-            background: var(--blue-light);
-            color: var(--blue-text);
-        }
-
-        .icon-purple {
-            background: var(--purple-light);
-            color: var(--purple-text);
-        }
-
-        .main-number {
-            font-size: 42px;
-            font-weight: 800;
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-        }
-
-        .main-number span {
-            font-size: 14px;
-            color: var(--text-gray);
-            font-weight: 600;
-        }
-
-        .rr-badge-container {
-            margin-top: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-gray);
-        }
-
-        .rr-value {
-            background: var(--badge-gray);
-            padding: 2px 8px;
-            border-radius: 4px;
-            color: var(--text-dark);
-        }
-
-        /* BAR CHARTS */
-        .bar-chart-card h3 {
-            font-size: 13px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .bar-row {
-            margin-bottom: 12px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .bar-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 4px;
-        }
-
-        .bar-track {
-            width: 100%;
-            height: 8px;
-            background: #f1f5f9;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            border-radius: 4px;
-        }
-
-        /* Colores sólidos para tarjetas de barras */
-        .card-cpl .bar-fill {
-            background-color: var(--green-main);
-        }
-
-        .card-cpr .bar-fill {
-            background-color: var(--blue-main);
-        }
-
-        .card-cpa .bar-fill {
-            background-color: var(--purple-main);
-        }
-
-        /* FILTERS & MAIN TABLE */
-        .table-section {
-            background: var(--white);
-            border-radius: 12px;
-            border: 1px solid var(--border-light);
-            overflow: hidden;
-        }
-
-        .filters {
-            padding: 16px 24px;
-            display: flex;
-            gap: 12px;
-            border-bottom: 1px solid var(--border-light);
-            align-items: center;
-        }
-
-        .filters input,
-        .filters select {
-            padding: 8px 12px;
-            border: 1px solid var(--border-light);
-            border-radius: 6px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .filters input {
-            width: 300px;
-        }
-
-        .clear-filters {
-            color: var(--blue-main);
-            font-size: 13px;
-            text-decoration: underline;
-            cursor: pointer;
-            margin-left: 8px;
-        }
-
-        .showing-text {
-            margin-left: auto;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            text-align: center;
-        }
-
-        /* CABECERA CLARA PARA LA TABLA PRINCIPAL */
-        .main-table thead tr:first-child th {
-            background-color: #e6f4ea;
-            color: #0f4c39;
-            padding: 12px;
-            border: 1px solid #94a3b8;
-            font-weight: 800;
-        }
-
-        .main-table thead tr:nth-child(2) th {
-            background-color: #e6f4ea;
-            color: #0f4c39;
-            padding: 8px;
-            font-size: 11px;
-            border: 1px solid #94a3b8;
-            font-weight: 800;
-        }
-
-        .main-table th:first-child,
-        .main-table td:first-child {
-            text-align: left;
-            padding-left: 24px;
-            font-weight: 700;
-        }
-
-        .main-table td {
-            padding: 12px;
-            border: 1px solid #94a3b8;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .main-table tbody tr:last-child {
-            background-color: #f8fafc;
-        }
-
-        .kpi-val {
-            color: #cbd5e1;
-            font-style: italic;
-        }
-
-        /* NÚMEROS EN VERDE Y ROJO SIN FONDO */
-        .pill {
-            display: inline-block;
-            padding: 0;
-            background-color: transparent;
-            font-weight: 700;
-        }
-
-        .pill-green {
-            color: var(--badge-green);
-        }
-
-        .pill-red {
-            color: var(--badge-red);
-        }
-
-        /* BOTTOM TABLES */
-        .grid-4 {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .mini-table-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border-light);
-        }
-
-        .mini-table-card table {
-            width: 100%;
-        }
-
-        .mini-table-card th {
-            padding: 12px 16px;
-            font-size: 12px;
-            text-align: right;
-            border: 1px solid #94a3b8;
-        }
-
-        .mini-table-card th:first-child {
-            text-align: left;
-        }
-
-        .mt-green th {
-            background-color: #e6f4ea;
-            color: #065f46;
-            font-weight: 800;
-        }
-
-        .mt-blue th {
-            background-color: #e0f2fe;
-            color: #1e3a8a;
-            font-weight: 800;
-        }
-
-        .mt-yellow th {
-            background-color: #fefce8;
-            color: #854d0e;
-            font-weight: 800;
-        }
-
-        .mt-purple th {
-            background-color: #f3e8ff;
-            color: #581c87;
-            font-weight: 800;
-        }
-
-        .mini-table-card td {
-            padding: 10px 16px;
-            border: 1px solid #94a3b8;
-            font-weight: 600;
-            text-align: right;
-        }
-
-        .mini-table-card td:first-child {
-            text-align: left;
-        }
-
-        .mini-table-card tbody tr:last-child {
-            background: #f8fafc;
-        }
-    </style>
+    /* TABLE GRID STYLE FOR ALL TABLES */
+    table.table-grid,
+    table.table-grid th,
+    table.table-grid td {
+      border: 1px solid #cbd5e1; /* slate-300 */
+      border-collapse: collapse;
+    }
+  </style>
 </head>
+<body class="p-4 md:p-6 min-h-screen">
 
-<body>
+  <div class="max-w-[1440px] mx-auto space-y-6">
 
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>MMR Media Management Report</h1>
-            <div class="date-badge">August 1-10</div>
-        </div>
-
-        <!-- Top Summary Cards -->
-        <div class="grid-3">
-            <div class="card card-top-border-green">
-                <div class="card-header">
-                    <div class="card-title">LEADS (CPL) MTD</div>
-                    <div class="icon-box icon-green">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </div>
-                </div>
-                <div class="main-number">1721 <span>MTD</span></div>
-                <div class="rr-badge-container">
-                    RR <span class="rr-value">5335</span>
-                </div>
-            </div>
-
-            <div class="card card-top-border-blue">
-                <div class="card-header">
-                    <div class="card-title">SIGNUPS (CPR) MTD</div>
-                    <div class="icon-box icon-blue">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                    </div>
-                </div>
-                <div class="main-number">222 <span>MTD</span></div>
-                <div class="rr-badge-container">
-                    RR <span class="rr-value">687</span>
-                </div>
-            </div>
-
-            <div class="card card-top-border-purple">
-                <div class="card-header">
-                    <div class="card-title">USERS (CPA) MTD</div>
-                    <div class="icon-box icon-purple">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                </div>
-                <div class="main-number">13 <span>MTD</span></div>
-                <div class="rr-badge-container">
-                    RR <span class="rr-value">40</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bar Charts -->
-        <div class="grid-3">
-            <!-- CPL CARD -->
-            <div class="card bar-chart-card card-cpl">
-                <h3>CPL BY PARTNER (MTD)</h3>
-                <div class="bar-row">
-                    <div class="bar-label"><span>ADM</span> <span>860</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 100%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>LGL</span> <span>477</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 55%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>OPI</span> <span>351</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 40%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>CHA</span> <span>33</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 5%;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- REGISTRATIONS CARD -->
-            <div class="card bar-chart-card card-cpr">
-                <h3>REGISTRATIONS BY PARTNER (MTD)</h3>
-                <div class="bar-row">
-                    <div class="bar-label"><span>LGL</span> <span>112</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 100%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>PRO</span> <span>69</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 61%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>CHA</span> <span>18</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 16%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>LUM</span> <span>12</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 10%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>SGA</span> <span>2</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 2%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>OCL</span> <span>2</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 2%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>ADM</span> <span>2</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 2%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>FXM</span> <span>2</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 2%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>FZY</span> <span>2</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 2%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>WRW</span> <span>1</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 1%;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CPA CARD -->
-            <div class="card bar-chart-card card-cpa">
-                <h3>CPA BY PARTNER (MTD)</h3>
-                <div class="bar-row">
-                    <div class="bar-label"><span>PRO</span> <span>11</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 100%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>OCL</span> <span>1</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 9%;"></div>
-                    </div>
-                </div>
-                <div class="bar-row">
-                    <div class="bar-label"><span>LGL</span> <span>1</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width: 9%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Table Section -->
-        <div class="table-section">
-            <div class="filters">
-                <input type="text" placeholder="e.g. ADM, LGL, PRO, OCL...">
-                <select>
-                    <option>Show All (11)</option>
-                </select>
-                <select>
-                    <option>Sort by CPL ↓ High to Low</option>
-                </select>
-                <span class="clear-filters">Clear filters</span>
-                <div class="showing-text">Showing 11 of 11 partners</div>
-            </div>
-            <table class="main-table">
-                <thead>
-                    <tr>
-                        <th rowspan="2">MEDIA PARTNER</th>
-                        <th colspan="3">CPL</th>
-                        <th colspan="3">REGISTRATIONS</th>
-                        <th colspan="3">CPA</th>
-                        <th rowspan="2">REVENUE</th>
-                    </tr>
-                    <tr>
-                        <th>KPI</th>
-                        <th>MTD</th>
-                        <th>RR</th>
-                        <th>KPI</th>
-                        <th>MTD</th>
-                        <th>RR</th>
-                        <th>KPI</th>
-                        <th>MTD</th>
-                        <th>RR</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>ADM</td>
-                        <td class="kpi-val">—</td>
-                        <td>860</td>
-                        <td><span class="pill pill-green">2666</span></td>
-                        <td class="kpi-val">100</td>
-                        <td>2</td>
-                        <td><span class="pill pill-red">6</span></td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td>LGL</td>
-                        <td class="kpi-val">—</td>
-                        <td>477</td>
-                        <td><span class="pill pill-green">1479</span></td>
-                        <td class="kpi-val">100</td>
-                        <td>112</td>
-                        <td><span class="pill pill-green">347</span></td>
-                        <td class="kpi-val">100</td>
-                        <td>1</td>
-                        <td><span class="pill pill-red">3</span></td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td>OPI</td>
-                        <td class="kpi-val">—</td>
-                        <td>351</td>
-                        <td><span class="pill pill-green">1088</span></td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td>CHA</td>
-                        <td class="kpi-val">—</td>
-                        <td>33</td>
-                        <td><span class="pill pill-green">102</span></td>
-                        <td class="kpi-val">100</td>
-                        <td>18</td>
-                        <td><span class="pill pill-red">56</span></td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td>PRO</td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td class="kpi-val">100</td>
-                        <td>69</td>
-                        <td><span class="pill pill-green">214</span></td>
-                        <td class="kpi-val">100</td>
-                        <td>11</td>
-                        <td><span class="pill pill-red">34</span></td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td>LUM</td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td class="kpi-val">100</td>
-                        <td>12</td>
-                        <td><span class="pill pill-red">37</span></td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td>SGA</td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td class="kpi-val">100</td>
-                        <td>2</td>
-                        <td><span class="pill pill-red">6</span></td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td>OCL</td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td class="kpi-val">100</td>
-                        <td>2</td>
-                        <td><span class="pill pill-red">6</span></td>
-                        <td class="kpi-val">100</td>
-                        <td>1</td>
-                        <td><span class="pill pill-red">3</span></td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td>FXM</td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td class="kpi-val">100</td>
-                        <td>2</td>
-                        <td><span class="pill pill-red">6</span></td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td>FZY</td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td class="kpi-val">100</td>
-                        <td>2</td>
-                        <td><span class="pill pill-red">6</span></td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td>WRW</td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td class="kpi-val">100</td>
-                        <td>1</td>
-                        <td><span class="pill pill-red">3</span></td>
-                        <td class="kpi-val">—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td>Grand total</td>
-                        <td class="kpi-val">—</td>
-                        <td>1721</td>
-                        <td><span class="pill pill-green">5335</span></td>
-                        <td class="kpi-val">1000</td>
-                        <td>222</td>
-                        <td><span class="pill pill-red">687</span></td>
-                        <td class="kpi-val">300</td>
-                        <td>13</td>
-                        <td><span class="pill pill-red">40</span></td>
-                        <td>—</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Bottom Mini Tables -->
-        <div class="grid-4">
-            <!-- MTD CPL -->
-            <div class="mini-table-card mt-green">
-                <table>
-                    <thead>
-                        <tr>
-                            <th colspan="4" style="text-align:left; font-size:13px;">MTD CPL CAMPAIGNS — LEADS</th>
-                        </tr>
-                        <tr>
-                            <th>AB</th>
-                            <th>KPI</th>
-                            <th>MTD</th>
-                            <th>RR</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>ADM</td>
-                            <td class="kpi-val">—</td>
-                            <td>860</td>
-                            <td><span class="pill pill-green">2666</span></td>
-                        </tr>
-                        <tr>
-                            <td>LGL</td>
-                            <td class="kpi-val">—</td>
-                            <td>477</td>
-                            <td><span class="pill pill-green">1479</span></td>
-                        </tr>
-                        <tr>
-                            <td>CHA</td>
-                            <td class="kpi-val">—</td>
-                            <td>33</td>
-                            <td><span class="pill pill-green">102</span></td>
-                        </tr>
-                        <tr>
-                            <td>OPI</td>
-                            <td class="kpi-val">—</td>
-                            <td>351</td>
-                            <td><span class="pill pill-green">1088</span></td>
-                        </tr>
-                        <tr>
-                            <td>Grand total</td>
-                            <td class="kpi-val">—</td>
-                            <td>1721</td>
-                            <td><span class="pill pill-green">5335</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- MTD CPR -->
-            <div class="mini-table-card mt-blue">
-                <table>
-                    <thead>
-                        <tr>
-                            <th colspan="4" style="text-align:left; font-size:13px;">MTD CPR CAMPAIGNS — SIGNUPS</th>
-                        </tr>
-                        <tr>
-                            <th>AB</th>
-                            <th>KPI</th>
-                            <th>MTD</th>
-                            <th>RR</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>LGL</td>
-                            <td class="kpi-val">100</td>
-                            <td>112</td>
-                            <td><span class="pill pill-green">347</span></td>
-                        </tr>
-                        <tr>
-                            <td>PRO</td>
-                            <td class="kpi-val">100</td>
-                            <td>69</td>
-                            <td><span class="pill pill-green">214</span></td>
-                        </tr>
-                        <tr>
-                            <td>CHA</td>
-                            <td class="kpi-val">100</td>
-                            <td>18</td>
-                            <td><span class="pill pill-red">56</span></td>
-                        </tr>
-                        <tr>
-                            <td>LUM</td>
-                            <td class="kpi-val">100</td>
-                            <td>12</td>
-                            <td><span class="pill pill-red">37</span></td>
-                        </tr>
-                        <tr>
-                            <td>SGA</td>
-                            <td class="kpi-val">100</td>
-                            <td>2</td>
-                            <td><span class="pill pill-red">6</span></td>
-                        </tr>
-                        <tr>
-                            <td>OCL</td>
-                            <td class="kpi-val">100</td>
-                            <td>2</td>
-                            <td><span class="pill pill-red">6</span></td>
-                        </tr>
-                        <tr>
-                            <td>ADM</td>
-                            <td class="kpi-val">100</td>
-                            <td>2</td>
-                            <td><span class="pill pill-red">6</span></td>
-                        </tr>
-                        <tr>
-                            <td>FXM</td>
-                            <td class="kpi-val">100</td>
-                            <td>2</td>
-                            <td><span class="pill pill-red">6</span></td>
-                        </tr>
-                        <tr>
-                            <td>FZY</td>
-                            <td class="kpi-val">100</td>
-                            <td>2</td>
-                            <td><span class="pill pill-red">6</span></td>
-                        </tr>
-                        <tr>
-                            <td>WRW</td>
-                            <td class="kpi-val">100</td>
-                            <td>1</td>
-                            <td><span class="pill pill-red">3</span></td>
-                        </tr>
-                        <tr>
-                            <td>Grand total</td>
-                            <td class="kpi-val">1000</td>
-                            <td>222</td>
-                            <td><span class="pill pill-red">687</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- CPR (CABECERA AMARILLO MUY CLARO / CREMA) -->
-            <div class="mini-table-card mt-yellow">
-                <table>
-                    <thead>
-                        <tr>
-                            <th colspan="4" style="text-align:center; font-size:13px;">CPR</th>
-                        </tr>
-                        <tr>
-                            <th>AB</th>
-                            <th>KPI</th>
-                            <th>MTD</th>
-                            <th>RR</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Grand total</td>
-                            <td class="kpi-val">200</td>
-                            <td>—</td>
-                            <td>—</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- MTD CPA -->
-            <div class="mini-table-card mt-purple">
-                <table>
-                    <thead>
-                        <tr>
-                            <th colspan="4" style="text-align:left; font-size:13px;">MTD CPA CAMPAIGNS — USERS</th>
-                        </tr>
-                        <tr>
-                            <th>AB</th>
-                            <th>KPI</th>
-                            <th>MTD</th>
-                            <th>RR</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>PRO</td>
-                            <td class="kpi-val">100</td>
-                            <td>11</td>
-                            <td><span class="pill pill-red">34</span></td>
-                        </tr>
-                        <tr>
-                            <td>OCL</td>
-                            <td class="kpi-val">100</td>
-                            <td>1</td>
-                            <td><span class="pill pill-red">3</span></td>
-                        </tr>
-                        <tr>
-                            <td>LGL</td>
-                            <td class="kpi-val">100</td>
-                            <td>1</td>
-                            <td><span class="pill pill-red">3</span></td>
-                        </tr>
-                        <tr>
-                            <td>Grand total</td>
-                            <td class="kpi-val">300</td>
-                            <td>13</td>
-                            <td><span class="pill pill-red">40</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 4 GRÁFICOS DE DONA CON TÍTULOS EN INGLÉS -->
-        <div class="grid-4" style="margin-top: -8px;">
-            <!-- DONA 1: MTD CPL CAMPAIGNS — LEADS -->
-            <div class="card" style="text-align: center; padding: 20px 12px; border-top: 4px solid var(--green-main);">
-                <div
-                    style="font-size: 12px; font-weight: 800; color: #065f46; margin-bottom: 12px; text-transform: uppercase;">
-                    MTD CPL CAMPAIGNS — LEADS
-                </div>
-                <svg viewBox="0 0 100 100"
-                    style="width: 125px; height: 125px; margin: 0 auto; transform: rotate(-90deg);">
-                    <circle cx="50" cy="50" r="38" stroke="#f1f5f9" stroke-width="12" fill="none" />
-                    <!-- ADM 50% -->
-                    <circle cx="50" cy="50" r="38" stroke="#00c98b" stroke-width="12" fill="none"
-                        stroke-dasharray="238.7" stroke-dashoffset="119.3" />
-                    <!-- LGL 28% -->
-                    <circle cx="50" cy="50" r="38" stroke="#10b981" stroke-width="12" fill="none"
-                        stroke-dasharray="238.7" stroke-dashoffset="172.5" transform="rotate(180 50 50)" />
-                    <!-- OPI 20% -->
-                    <circle cx="50" cy="50" r="38" stroke="#34d399" stroke-width="12" fill="none"
-                        stroke-dasharray="238.7" stroke-dashoffset="190" transform="rotate(280 50 50)" />
-                    <!-- Texto Central -->
-                    <g transform="rotate(90 50 50)">
-                        <text x="50" y="47" text-anchor="middle" font-size="14" font-weight="800"
-                            fill="#065f46">1,721</text>
-                        <text x="50" y="60" text-anchor="middle" font-size="9" font-weight="700"
-                            fill="#64748b">Leads</text>
-                    </g>
-                </svg>
-                <div
-                    style="font-size: 11px; font-weight: 700; color: #64748b; margin-top: 12px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
-                    <span>🟢 ADM (50%)</span>
-                    <span>🟢 LGL (28%)</span>
-                    <span>🟢 OPI (20%)</span>
-                </div>
-            </div>
-
-            <!-- DONA 2: MTD CPR CAMPAIGNS — SIGNUPS -->
-            <div class="card" style="text-align: center; padding: 20px 12px; border-top: 4px solid var(--blue-main);">
-                <div
-                    style="font-size: 12px; font-weight: 800; color: #1e3a8a; margin-bottom: 12px; text-transform: uppercase;">
-                    MTD CPR CAMPAIGNS — SIGNUPS
-                </div>
-                <svg viewBox="0 0 100 100"
-                    style="width: 125px; height: 125px; margin: 0 auto; transform: rotate(-90deg);">
-                    <circle cx="50" cy="50" r="38" stroke="#f1f5f9" stroke-width="12" fill="none" />
-                    <!-- LGL 51% -->
-                    <circle cx="50" cy="50" r="38" stroke="#3b82f6" stroke-width="12" fill="none"
-                        stroke-dasharray="238.7" stroke-dashoffset="118.1" />
-                    <!-- PRO 31% -->
-                    <circle cx="50" cy="50" r="38" stroke="#60a5fa" stroke-width="12" fill="none"
-                        stroke-dasharray="238.7" stroke-dashoffset="164.4" transform="rotate(182 50 50)" />
-                    <!-- Others 18% -->
-                    <circle cx="50" cy="50" r="38" stroke="#bfdbfe" stroke-width="12" fill="none"
-                        stroke-dasharray="238.7" stroke-dashoffset="194.7" transform="rotate(294 50 50)" />
-                    <!-- Texto Central -->
-                    <g transform="rotate(90 50 50)">
-                        <text x="50" y="47" text-anchor="middle" font-size="14" font-weight="800"
-                            fill="#1e3a8a">222</text>
-                        <text x="50" y="60" text-anchor="middle" font-size="9" font-weight="700"
-                            fill="#64748b">Signups</text>
-                    </g>
-                </svg>
-                <div
-                    style="font-size: 11px; font-weight: 700; color: #64748b; margin-top: 12px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
-                    <span>🔵 LGL (51%)</span>
-                    <span>🔵 PRO (31%)</span>
-                    <span>🔵 Others (18%)</span>
-                </div>
-            </div>
-
-            <!-- DONA 3: CPR -->
-            <div class="card" style="text-align: center; padding: 20px 12px; border-top: 4px solid #eab308;">
-                <div
-                    style="font-size: 12px; font-weight: 800; color: #854d0e; margin-bottom: 12px; text-transform: uppercase;">
-                    CPR
-                </div>
-                <svg viewBox="0 0 100 100"
-                    style="width: 125px; height: 125px; margin: 0 auto; transform: rotate(-90deg);">
-                    <circle cx="50" cy="50" r="38" stroke="#fef08a" stroke-width="12" fill="none"
-                        stroke-dasharray="8 4" />
-                    <g transform="rotate(90 50 50)">
-                        <text x="50" y="46" text-anchor="middle" font-size="14" font-weight="800"
-                            fill="#854d0e">200</text>
-                        <text x="50" y="58" text-anchor="middle" font-size="8.5" font-weight="700" fill="#a16207">KPI
-                            Target</text>
-                    </g>
-                </svg>
-                <div style="font-size: 11px; font-weight: 700; color: #854d0e; margin-top: 12px;">
-                    No data yet
-                </div>
-            </div>
-
-            <!-- DONA 4: MTD CPA CAMPAIGNS — USERS -->
-            <div class="card" style="text-align: center; padding: 20px 12px; border-top: 4px solid var(--purple-main);">
-                <div
-                    style="font-size: 12px; font-weight: 800; color: #581c87; margin-bottom: 12px; text-transform: uppercase;">
-                    MTD CPA CAMPAIGNS — USERS
-                </div>
-                <svg viewBox="0 0 100 100"
-                    style="width: 125px; height: 125px; margin: 0 auto; transform: rotate(-90deg);">
-                    <circle cx="50" cy="50" r="38" stroke="#f1f5f9" stroke-width="12" fill="none" />
-                    <!-- PRO 85% -->
-                    <circle cx="50" cy="50" r="38" stroke="#a855f7" stroke-width="12" fill="none"
-                        stroke-dasharray="238.7" stroke-dashoffset="36.7" />
-                    <!-- OCL + LGL 15% -->
-                    <circle cx="50" cy="50" r="38" stroke="#c084fc" stroke-width="12" fill="none"
-                        stroke-dasharray="238.7" stroke-dashoffset="220" transform="rotate(304 50 50)" />
-                    <!-- Texto Central -->
-                    <g transform="rotate(90 50 50)">
-                        <text x="50" y="47" text-anchor="middle" font-size="14" font-weight="800"
-                            fill="#581c87">13</text>
-                        <text x="50" y="60" text-anchor="middle" font-size="9" font-weight="700"
-                            fill="#64748b">Users</text>
-                    </g>
-                </svg>
-                <div
-                    style="font-size: 11px; font-weight: 700; color: #64748b; margin-top: 12px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
-                    <span>🟣 PRO (85%)</span>
-                    <span>🟣 OCL (7.5%)</span>
-                    <span>🟣 LGL (7.5%)</span>
-                </div>
-            </div>
-        </div>
+    <!-- TOP NAVIGATION TABS -->
+    <div class="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+      <div class="flex items-center gap-3">
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">MMR Media Management Report</h1>
+        <span class="bg-slate-800 text-white text-xs font-semibold px-3 py-1 rounded-full">August 1-12</span>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="switchTab('all')" id="tab-all" class="px-3 py-1.5 text-xs font-bold rounded-lg transition bg-slate-900 text-white">All Views</button>
+        <button onclick="switchTab('v1')" id="tab-v1" class="px-3 py-1.5 text-xs font-bold rounded-lg transition bg-slate-100 text-slate-600 hover:bg-slate-200">View 1 (Summary)</button>
+        <button onclick="switchTab('v2')" id="tab-v2" class="px-3 py-1.5 text-xs font-bold rounded-lg transition bg-slate-100 text-slate-600 hover:bg-slate-200">View 2 (General Table)</button>
+        <button onclick="switchTab('v3')" id="tab-v3" class="px-3 py-1.5 text-xs font-bold rounded-lg transition bg-slate-100 text-slate-600 hover:bg-slate-200">View 3 (Charts)</button>
+      </div>
     </div>
 
-</body>
+    <!-- ========================================== -->
+    <!-- SECTION 1: CARDS AND PROGRESS BARS VIEW -->
+    <!-- ========================================== -->
+    <div id="section-v1" class="space-y-6">
+      
+      <!-- TOP METRIC CARDS -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- LEADS (CPL) MTD -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative">
+          <div class="flex justify-between items-start">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">LEADS (CPL) MTD</span>
+            <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+              <i class="fa-regular fa-eye"></i>
+            </div>
+          </div>
+          <div class="mt-4 flex items-baseline gap-2">
+            <span class="text-4xl font-black text-slate-900">2622</span>
+            <span class="text-xs font-bold text-slate-500">MTD</span>
+          </div>
+          <div class="mt-4 inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
+            <span class="text-slate-500">RR</span> <span class="font-extrabold text-slate-900">6775</span>
+          </div>
+        </div>
 
+        <!-- SIGNUPS (CPR) MTD -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative">
+          <div class="flex justify-between items-start">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">SIGNUPS (CPR) MTD</span>
+            <div class="w-9 h-9 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+              <i class="fa-solid fa-check"></i>
+            </div>
+          </div>
+          <div class="mt-4 flex items-baseline gap-2">
+            <span class="text-4xl font-black text-slate-900">158</span>
+            <span class="text-xs font-bold text-slate-500">MTD</span>
+          </div>
+          <div class="mt-4 inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
+            <span class="text-slate-500">RR</span> <span class="font-extrabold text-slate-900">409</span>
+          </div>
+        </div>
+
+        <!-- USERS (CPA) MTD -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative">
+          <div class="flex justify-between items-start">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">USERS (CPA) MTD</span>
+            <div class="w-9 h-9 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center">
+              <i class="fa-regular fa-user"></i>
+            </div>
+          </div>
+          <div class="mt-4 flex items-baseline gap-2">
+            <span class="text-4xl font-black text-slate-900">12</span>
+            <span class="text-xs font-bold text-slate-500">MTD</span>
+          </div>
+          <div class="mt-4 inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-700">
+            <span class="text-slate-500">RR</span> <span class="font-extrabold text-slate-900">31</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PROGRESS BARS BY PARTNER -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- CPL BY PARTNER (MTD) -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-4">
+          <h3 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">CPL BY PARTNER (MTD)</h3>
+          
+          <div class="space-y-3 pt-2">
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1.5">
+                <span>ADM</span><span>1086</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-green-custom h-full rounded-full" style="width: 100%;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1.5">
+                <span>RXD</span><span>594</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-green-custom h-full rounded-full" style="width: 55%;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1.5">
+                <span>LGL</span><span>555</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-green-custom h-full rounded-full" style="width: 51%;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1.5">
+                <span>OPI</span><span>354</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-green-custom h-full rounded-full" style="width: 33%;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1.5">
+                <span>CHA</span><span>33</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-green-custom h-full rounded-full" style="width: 3%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- REGISTRATIONS BY PARTNER (MTD) -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+          <h3 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">REGISTRATIONS BY PARTNER (MTD)</h3>
+          
+          <div class="space-y-2.5 pt-1">
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1"><span>PRO</span><span>71</span></div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden"><div class="bg-blue-custom h-full rounded-full" style="width: 100%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1"><span>LGL</span><span>58</span></div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden"><div class="bg-blue-custom h-full rounded-full" style="width: 82%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1"><span>LUM</span><span>13</span></div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden"><div class="bg-blue-custom h-full rounded-full" style="width: 18%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1"><span>CHA</span><span>5</span></div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden"><div class="bg-blue-custom h-full rounded-full" style="width: 7%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1"><span>OCL</span><span>3</span></div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden"><div class="bg-blue-custom h-full rounded-full" style="width: 4%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1"><span>FXM</span><span>3</span></div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden"><div class="bg-blue-custom h-full rounded-full" style="width: 4%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1"><span>SGA</span><span>2</span></div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden"><div class="bg-blue-custom h-full rounded-full" style="width: 3%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1"><span>ADM</span><span>2</span></div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden"><div class="bg-blue-custom h-full rounded-full" style="width: 3%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1"><span>WRW</span><span>1</span></div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden"><div class="bg-blue-custom h-full rounded-full" style="width: 1.5%;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CPA BY PARTNER (MTD) -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-4">
+          <h3 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">CPA BY PARTNER (MTD)</h3>
+          
+          <div class="space-y-5 pt-3">
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1.5">
+                <span class="text-slate-900">PRO</span>
+                <span class="text-slate-900">11</span>
+              </div>
+              <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                <div class="bg-purple-custom h-full rounded-full" style="width: 100%;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-extrabold mb-1.5">
+                <span class="text-slate-900">OCL</span>
+                <span class="text-slate-900">1</span>
+              </div>
+              <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                <div class="bg-purple-custom h-full rounded-full" style="width: 9%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 2: MAIN GENERAL TABLE -->
+    <!-- ========================================== -->
+    <div id="section-v2" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden p-6 space-y-4">
+      
+      <!-- CONTROLS AND FILTERS -->
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
+        <div class="flex flex-wrap items-center gap-3">
+          <input type="text" placeholder="e.g. ADM, LGL, PRO, OCL..." class="border border-slate-200 rounded-lg px-3 py-1.5 text-xs w-60 focus:outline-none focus:ring-1 focus:ring-slate-400">
+          <select class="border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-700 bg-white">
+            <option>Show All (12)</option>
+          </select>
+          <select class="border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-700 bg-white">
+            <option>Sort by CPL ↓ High to Low</option>
+          </select>
+          <button class="text-xs text-blue-600 hover:underline font-semibold ml-2">Clear filters</button>
+        </div>
+        <div class="text-xs font-bold text-slate-800">
+          Showing 12 of 12 partners
+        </div>
+      </div>
+
+      <!-- DETAILED MAIN TABLE -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs table-grid">
+          <thead>
+            <tr class="bg-mint-header text-slate-800">
+              <th rowspan="2" class="p-3 font-extrabold uppercase tracking-wider align-middle">MEDIA PARTNER</th>
+              <th colspan="3" class="p-3 font-extrabold uppercase tracking-wider text-center">CPL</th>
+              <th colspan="3" class="p-3 font-extrabold uppercase tracking-wider text-center">REGISTRATIONS</th>
+              <th colspan="3" class="p-3 font-extrabold uppercase tracking-wider text-center">CPA</th>
+              <th rowspan="2" class="p-3 font-extrabold uppercase tracking-wider text-center align-middle">REVENUE</th>
+              <th rowspan="2" class="p-3 font-extrabold uppercase tracking-wider text-center align-middle">BUDGET</th>
+              <th rowspan="2" class="p-3 font-extrabold uppercase tracking-wider text-center align-middle">PROFIT</th>
+            </tr>
+            <tr class="bg-mint-header text-slate-700 text-center font-bold">
+              <th class="p-2 w-16">KPI</th>
+              <th class="p-2 w-16">MTD</th>
+              <th class="p-2 w-16">RR</th>
+              <th class="p-2 w-16">KPI</th>
+              <th class="p-2 w-16">MTD</th>
+              <th class="p-2 w-16">RR</th>
+              <th class="p-2 w-16">KPI</th>
+              <th class="p-2 w-16">MTD</th>
+              <th class="p-2 w-16">RR</th>
+            </tr>
+          </thead>
+          <tbody class="font-semibold text-slate-800">
+            <!-- Row: ADM -->
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-extrabold">ADM</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">1086</td>
+              <td class="p-3 text-center text-green-custom font-extrabold">2806</td>
+              <td class="p-3 text-center text-slate-400 italic">111</td>
+              <td class="p-3 text-center font-extrabold">2</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">5</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">36</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">-36</td>
+            </tr>
+            <!-- Row: RXD -->
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-extrabold">RXD</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">594</td>
+              <td class="p-3 text-center text-green-custom font-extrabold">1535</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">118.8</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">-118.8</td>
+            </tr>
+            <!-- Row: LGL -->
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-extrabold">LGL</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">555</td>
+              <td class="p-3 text-center text-green-custom font-extrabold">1434</td>
+              <td class="p-3 text-center text-slate-400 italic">111</td>
+              <td class="p-3 text-center font-extrabold">58</td>
+              <td class="p-3 text-center text-green-custom font-extrabold">150</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">96</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">-96</td>
+            </tr>
+            <!-- Row: OPI -->
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-extrabold">OPI</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">354</td>
+              <td class="p-3 text-center text-green-custom font-extrabold">915</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">106.2</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">-106.2</td>
+            </tr>
+            <!-- Row: CHA -->
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-extrabold">CHA</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">33</td>
+              <td class="p-3 text-center text-green-custom font-extrabold">85</td>
+              <td class="p-3 text-center text-slate-400 italic">111</td>
+              <td class="p-3 text-center font-extrabold">5</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">13</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+            </tr>
+            <!-- Row: PRO -->
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-extrabold">PRO</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">112</td>
+              <td class="p-3 text-center font-extrabold">71</td>
+              <td class="p-3 text-center text-green-custom font-extrabold">183</td>
+              <td class="p-3 text-center text-slate-400 italic">150</td>
+              <td class="p-3 text-center font-extrabold">11</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">28</td>
+              <td class="p-3 text-center font-extrabold">165.0</td>
+              <td class="p-3 text-center font-extrabold">750</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">-585.0</td>
+            </tr>
+            <!-- Row: LUM -->
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-extrabold">LUM</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">111</td>
+              <td class="p-3 text-center font-extrabold">13</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">34</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">14</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">-14</td>
+            </tr>
+            <!-- Row: SGA -->
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-extrabold">SGA</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">111</td>
+              <td class="p-3 text-center font-extrabold">2</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">5</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+            </tr>
+            <!-- Row: OCL -->
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-extrabold">OCL</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">111</td>
+              <td class="p-3 text-center font-extrabold">3</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">8</td>
+              <td class="p-3 text-center text-slate-400 italic">150</td>
+              <td class="p-3 text-center font-extrabold">1</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">3</td>
+              <td class="p-3 text-center font-extrabold">75.0</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center text-green-custom font-extrabold">75.0</td>
+            </tr>
+            <!-- Row: FXM -->
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-extrabold">FXM</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">111</td>
+              <td class="p-3 text-center font-extrabold">3</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">8</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+            </tr>
+            <!-- Row: FZY -->
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-extrabold">FZY</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+            </tr>
+            <!-- Row: WRW -->
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-extrabold">WRW</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400 italic">111</td>
+              <td class="p-3 text-center font-extrabold">1</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">3</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center font-extrabold">0</td>
+              <td class="p-3 text-center font-extrabold">110</td>
+              <td class="p-3 text-center text-red-custom font-extrabold">-110</td>
+            </tr>
+            <!-- Grand total -->
+            <tr class="bg-slate-50 font-black">
+              <td class="p-3 font-extrabold">Grand total</td>
+              <td class="p-3 text-center text-slate-400">—</td>
+              <td class="p-3 text-center">2622</td>
+              <td class="p-3 text-center text-green-custom">6775</td>
+              <td class="p-3 text-center text-slate-400 italic">1000</td>
+              <td class="p-3 text-center">158</td>
+              <td class="p-3 text-center text-red-custom">409</td>
+              <td class="p-3 text-center text-slate-400 font-bold">300</td>
+              <td class="p-3 text-center">12</td>
+              <td class="p-3 text-center text-red-custom">31</td>
+              <td class="p-3 text-center font-black">240.0</td>
+              <td class="p-3 text-center font-black">1231.0</td>
+              <td class="p-3 text-center text-red-custom font-black">-991.0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 3: CAMPAIGN TABLES AND CHARTS -->
+    <!-- ========================================== -->
+    <div id="section-v3" class="space-y-6">
+      
+      <!-- 4 TABLES GRID -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        
+        <!-- TABLE 1: MTD CPL CAMPAIGNS -->
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
+          <div class="bg-emerald-50 text-emerald-800 text-xs font-bold p-2.5 rounded-lg mb-3">
+            MTD CPL CAMPAIGNS — LEADS
+          </div>
+          <table class="w-full text-xs table-grid">
+            <thead>
+              <tr class="bg-slate-50 text-slate-700 font-bold">
+                <th class="py-1 px-2 text-left">AB</th>
+                <th class="py-1 px-2 text-center">KPI</th>
+                <th class="py-1 px-2 text-center">MTD</th>
+                <th class="py-1 px-2 text-center">RR</th>
+              </tr>
+            </thead>
+            <tbody class="font-semibold">
+              <tr><td class="py-1.5 px-2 font-bold">ADM</td><td class="text-center text-slate-400">—</td><td class="text-center font-black">1086</td><td class="text-center text-green-custom font-black">2806</td></tr>
+              <tr><td class="py-1.5 px-2 font-bold">RXD</td><td class="text-center text-slate-400">—</td><td class="text-center font-black">594</td><td class="text-center text-green-custom font-black">1535</td></tr>
+              <tr><td class="py-1.5 px-2 font-bold">LGL</td><td class="text-center text-slate-400">—</td><td class="text-center font-black">555</td><td class="text-center text-green-custom font-black">1434</td></tr>
+              <tr><td class="py-1.5 px-2 font-bold">OPI</td><td class="text-center text-slate-400">—</td><td class="text-center font-black">354</td><td class="text-center text-green-custom font-black">915</td></tr>
+              <tr><td class="py-1.5 px-2 font-bold">CHA</td><td class="text-center text-slate-400">—</td><td class="text-center font-black">33</td><td class="text-center text-green-custom font-black">85</td></tr>
+              <tr class="font-extrabold bg-slate-50"><td class="py-2 px-2">Grand total</td><td class="text-center text-slate-400">—</td><td class="text-center">2622</td><td class="text-center text-green-custom">6775</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- TABLE 2: MTD CPR CAMPAIGNS -->
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
+          <div class="bg-blue-50 text-blue-800 text-xs font-bold p-2.5 rounded-lg mb-3">
+            MTD CPR CAMPAIGNS — SIGNUPS
+          </div>
+          <table class="w-full text-xs table-grid">
+            <thead>
+              <tr class="bg-slate-50 text-slate-700 font-bold">
+                <th class="py-1 px-2 text-left">AB</th>
+                <th class="py-1 px-2 text-center">KPI</th>
+                <th class="py-1 px-2 text-center">MTD</th>
+                <th class="py-1 px-2 text-center">RR</th>
+              </tr>
+            </thead>
+            <tbody class="font-semibold">
+              <tr><td class="py-1 px-2 font-bold">PRO</td><td class="text-center text-slate-400 italic">112</td><td class="text-center font-black">71</td><td class="text-center text-green-custom font-black">183</td></tr>
+              <tr><td class="py-1 px-2 font-bold">LGL</td><td class="text-center text-slate-400 italic">111</td><td class="text-center font-black">58</td><td class="text-center text-green-custom font-black">150</td></tr>
+              <tr><td class="py-1 px-2 font-bold">LUM</td><td class="text-center text-slate-400 italic">111</td><td class="text-center font-black">13</td><td class="text-center text-red-custom font-black">34</td></tr>
+              <tr><td class="py-1 px-2 font-bold">CHA</td><td class="text-center text-slate-400 italic">111</td><td class="text-center font-black">5</td><td class="text-center text-red-custom font-black">13</td></tr>
+              <tr><td class="py-1 px-2 font-bold">OCL</td><td class="text-center text-slate-400 italic">111</td><td class="text-center font-black">3</td><td class="text-center text-red-custom font-black">8</td></tr>
+              <tr><td class="py-1 px-2 font-bold">FXM</td><td class="text-center text-slate-400 italic">111</td><td class="text-center font-black">3</td><td class="text-center text-red-custom font-black">8</td></tr>
+              <tr><td class="py-1 px-2 font-bold">SGA</td><td class="text-center text-slate-400 italic">111</td><td class="text-center font-black">2</td><td class="text-center text-red-custom font-black">5</td></tr>
+              <tr><td class="py-1 px-2 font-bold">ADM</td><td class="text-center text-slate-400 italic">111</td><td class="text-center font-black">2</td><td class="text-center text-red-custom font-black">5</td></tr>
+              <tr><td class="py-1 px-2 font-bold">WRW</td><td class="text-center text-slate-400 italic">111</td><td class="text-center font-black">1</td><td class="text-center text-red-custom font-black">3</td></tr>
+              <tr class="font-extrabold bg-slate-50"><td class="py-1.5 px-2">Grand total</td><td class="text-center text-slate-400 italic">1000</td><td class="text-center">158</td><td class="text-center text-red-custom">409</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- TABLE 3: CPR TARGET -->
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
+          <div class="bg-amber-50 text-amber-800 text-xs font-bold p-2.5 rounded-lg mb-3">
+            CPR
+          </div>
+          <table class="w-full text-xs table-grid">
+            <thead>
+              <tr class="bg-slate-50 text-slate-700 font-bold">
+                <th class="py-1 px-2 text-left">AB</th>
+                <th class="py-1 px-2 text-center">KPI</th>
+                <th class="py-1 px-2 text-center">MTD</th>
+                <th class="py-1 px-2 text-center">RR</th>
+              </tr>
+            </thead>
+            <tbody class="font-semibold">
+              <tr class="font-extrabold"><td class="py-1.5 px-2">Grand total</td><td class="text-center text-slate-400 italic">200</td><td class="text-center text-slate-400">—</td><td class="text-center text-slate-400">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- TABLE 4: MTD CPA CAMPAIGNS — USERS (PRO 150 + OCL 150 = 300 KPI TOTAL) -->
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
+          <div class="bg-fuchsia-50 text-purple-900 text-xs font-bold p-2.5 rounded-lg mb-3 tracking-wide">
+            MTD CPA CAMPAIGNS — USERS
+          </div>
+          <table class="w-full text-xs table-grid">
+            <thead>
+              <tr class="bg-slate-50 text-slate-800 font-extrabold">
+                <th class="py-1.5 px-2 text-left">AB</th>
+                <th class="py-1.5 px-2 text-center">KPI</th>
+                <th class="py-1.5 px-2 text-center">PLAYERS</th>
+                <th class="py-1.5 px-2 text-center">RR</th>
+              </tr>
+            </thead>
+            <tbody class="font-extrabold">
+              <tr>
+                <td class="py-2 px-2 text-slate-900">PRO</td>
+                <td class="text-center text-slate-400 italic">150</td>
+                <td class="text-center text-slate-900">11</td>
+                <td class="text-center text-red-custom">28</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2 text-slate-900">OCL</td>
+                <td class="text-center text-slate-400 italic">150</td>
+                <td class="text-center text-slate-900">1</td>
+                <td class="text-center text-red-custom">3</td>
+              </tr>
+              <tr class="font-black bg-slate-50">
+                <td class="py-2.5 px-2 text-slate-900">Grand total</td>
+                <td class="text-center text-slate-400 italic font-bold">300</td>
+                <td class="text-center text-slate-900">12</td>
+                <td class="text-center text-red-custom">31</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- 4 DONUT CHARTS GRID -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        
+        <!-- CHART 1 -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-between">
+          <h4 class="text-xs font-bold text-slate-800 uppercase mb-4">MTD CPL CAMPAIGNS — LEADS</h4>
+          <div class="relative w-40 h-40 flex items-center justify-center">
+            <canvas id="chartCpl"></canvas>
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span class="text-lg font-black text-slate-900">2,622</span>
+              <span class="text-[10px] font-bold text-slate-400">Leads</span>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap justify-center gap-2 text-[11px] font-bold text-slate-600">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span> ADM (41%)</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> RXD (23%)</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span> LGL (21%)</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-300 inline-block"></span> OPI (14%)</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-200 inline-block"></span> CHA (1%)</span>
+          </div>
+        </div>
+
+        <!-- CHART 2 -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-between">
+          <h4 class="text-xs font-bold text-slate-800 uppercase mb-4">MTD CPR CAMPAIGNS — SIGNUPS</h4>
+          <div class="relative w-40 h-40 flex items-center justify-center">
+            <canvas id="chartCpr"></canvas>
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span class="text-lg font-black text-slate-900">158</span>
+              <span class="text-[10px] font-bold text-slate-400">Signups</span>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap justify-center gap-2 text-[11px] font-bold text-slate-600">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-600 inline-block"></span> PRO (45%)</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span> LGL (37%)</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-400 inline-block"></span> LUM (8%)</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-200 inline-block"></span> Others (10%)</span>
+          </div>
+        </div>
+
+        <!-- CHART 3 (TARGET GAUGE) -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-between">
+          <h4 class="text-xs font-bold text-slate-800 uppercase mb-4">CPR</h4>
+          <div class="relative w-40 h-40 flex items-center justify-center">
+            <canvas id="chartCprTarget"></canvas>
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span class="text-lg font-black text-slate-900">200</span>
+              <span class="text-[10px] font-bold text-slate-400">KPI Target</span>
+            </div>
+          </div>
+          <div class="mt-4 text-[11px] font-bold text-slate-400">
+            No data yet
+          </div>
+        </div>
+
+        <!-- CHART 4 -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-between">
+          <h4 class="text-xs font-bold text-slate-800 uppercase mb-4">MTD CPA CAMPAIGNS — USERS</h4>
+          <div class="relative w-40 h-40 flex items-center justify-center">
+            <canvas id="chartCpa"></canvas>
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span class="text-lg font-black text-slate-900">12</span>
+              <span class="text-[10px] font-bold text-slate-400">Players</span>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap justify-center gap-2 text-[11px] font-bold text-slate-600">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-purple-600 inline-block"></span> PRO (91.7%)</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-purple-400 inline-block"></span> OCL (8.3%)</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- JAVASCRIPT FOR TABS AND CHART.JS -->
+  <script>
+    function switchTab(tab) {
+      const v1 = document.getElementById('section-v1');
+      const v2 = document.getElementById('section-v2');
+      const v3 = document.getElementById('section-v3');
+
+      const btnAll = document.getElementById('tab-all');
+      const btnV1 = document.getElementById('tab-v1');
+      const btnV2 = document.getElementById('tab-v2');
+      const btnV3 = document.getElementById('tab-v3');
+
+      const activeClass = "px-3 py-1.5 text-xs font-bold rounded-lg transition bg-slate-900 text-white";
+      const inactiveClass = "px-3 py-1.5 text-xs font-bold rounded-lg transition bg-slate-100 text-slate-600 hover:bg-slate-200";
+
+      btnAll.className = inactiveClass;
+      btnV1.className = inactiveClass;
+      btnV2.className = inactiveClass;
+      btnV3.className = inactiveClass;
+
+      if(tab === 'all') {
+        v1.style.display = 'block';
+        v2.style.display = 'block';
+        v3.style.display = 'block';
+        btnAll.className = activeClass;
+      } else if(tab === 'v1') {
+        v1.style.display = 'block';
+        v2.style.display = 'none';
+        v3.style.display = 'none';
+        btnV1.className = activeClass;
+      } else if(tab === 'v2') {
+        v1.style.display = 'none';
+        v2.style.display = 'block';
+        v3.style.display = 'none';
+        btnV2.className = activeClass;
+      } else if(tab === 'v3') {
+        v1.style.display = 'none';
+        v2.style.display = 'none';
+        v3.style.display = 'block';
+        btnV3.className = activeClass;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new Chart(document.getElementById('chartCpl'), {
+        type: 'doughnut',
+        data: {
+          labels: ['ADM', 'RXD', 'LGL', 'OPI', 'CHA'],
+          datasets: [{
+            data: [41, 23, 21, 14, 1],
+            backgroundColor: ['#059669', '#10b981', '#34d399', '#6ee7b7', '#a7f3d0'],
+            borderWidth: 0
+          }]
+        },
+        options: { cutout: '75%', plugins: { legend: { display: false } } }
+      });
+
+      new Chart(document.getElementById('chartCpr'), {
+        type: 'doughnut',
+        data: {
+          labels: ['PRO', 'LGL', 'LUM', 'Others'],
+          datasets: [{
+            data: [45, 37, 8, 10],
+            backgroundColor: ['#1d4ed8', '#2563eb', '#60a5fa', '#93c5fd'],
+            borderWidth: 0
+          }]
+        },
+        options: { cutout: '75%', plugins: { legend: { display: false } } }
+      });
+
+      new Chart(document.getElementById('chartCprTarget'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Target'],
+          datasets: [{
+            data: [100],
+            backgroundColor: ['#fef08a'],
+            borderWidth: 0
+          }]
+        },
+        options: { cutout: '75%', plugins: { legend: { display: false } } }
+      });
+
+      new Chart(document.getElementById('chartCpa'), {
+        type: 'doughnut',
+        data: {
+          labels: ['PRO', 'OCL'],
+          datasets: [{
+            data: [91.7, 8.3],
+            backgroundColor: ['#a855f7', '#c084fc'],
+            borderWidth: 0
+          }]
+        },
+        options: { cutout: '75%', plugins: { legend: { display: false } } }
+      });
+    });
+  </script>
+</body>
 </html>
